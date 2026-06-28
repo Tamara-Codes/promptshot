@@ -105,21 +105,6 @@ segments. On **Enter**, the overlay is hidden, `Pillow.ImageGrab.grab()` capture
 (scaled for high-DPI), and the result is placed on the clipboard as a `CF_DIB`. The dim
 layer is never part of the captured image.
 
-## Building a standalone .exe (optional)
-
-If you want to hand this to non-developers who don't have Python, bundle it with
-[PyInstaller](https://pyinstaller.org/):
-
-```powershell
-python -m pip install pyinstaller
-pyinstaller --noconsole --onedir --name PromptShot promptshot_daemon.pyw
-```
-
-Use `--onedir` (a folder you zip), **not** `--onefile` — single-file exes self-extract on
-every launch and draw more antivirus heuristic attention. The build lands in `dist/`. Note
-that an unsigned `.exe` will show a Windows SmartScreen "unknown publisher" prompt the first
-time it runs; code-signing removes that but requires a paid certificate.
-
 ## License
 
 [MIT](LICENSE) — do whatever you like with it.
