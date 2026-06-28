@@ -1,85 +1,87 @@
 # PromptShot
 
-A tiny Windows tool for marking up your screen and pasting an **annotated screenshot**
-straight into a chat with an AI coding assistant (or anywhere else).
+**The fastest screenshot annotation tool for AI coding.**
 
-Press a hotkey, the screen dims slightly, you scribble red marks over whatever you want to
-point at, hit **Enter**, and a clean full-colour screenshot — with your marks burned in — is
-on the clipboard, ready to `Ctrl+V` into your prompt.
+Press a hotkey, draw a red circle or arrow on whatever's broken, hit Enter — and an
+annotated screenshot is on your clipboard, ready to paste into Cursor, Claude, or Copilot.
 
 ```
 Ctrl+Alt+J   →   dim live screen   →   draw   →   Enter   →   screenshot on clipboard
                                                     Esc     →   cancel
 ```
 
-### Why it exists
+## Why should I care?
 
-When you ask an AI to "align this", "fix this angle", or "move that button", a screenshot
-with an arrow on it says it in one shot. Existing tools either **freeze** the screen
-(ZoomIt) or pop up a heavy editor afterwards (ShareX, Epic Pen). PromptShot does neither —
-the desktop stays **live** underneath while you draw, and the dim overlay never ends up in
-the saved image.
+If you spend your day coding with an AI assistant, you already know the friction: you type
+*"no, move the button to the **left** of the heading, and the padding is too tight on
+mobile"* — and the model still gets it wrong, because words are a terrible way to describe
+pixels.
 
-## Requirements
+Circle it instead. One keystroke, one arrow, paste. The AI sees exactly what you mean.
 
-- **Windows** (uses the Windows clipboard and screen-grab APIs — does not work under WSL or
-  on macOS/Linux).
-- **Python 3.9+** for Windows ([python.org](https://www.python.org/downloads/windows/) or
-  the Microsoft Store build).
+Other tools almost do this, but each one breaks the flow somewhere:
+
+|                                      | **PromptShot** | Win+Shift+S | ShareX | Epic Pen |
+|--------------------------------------|:--------------:|:-----------:|:------:|:--------:|
+| Hotkey to draw                       |       ✅       |      ❌     |   ⚠️   |    ✅    |
+| Draw on the live desktop (no freeze) |       ✅       |      ❌     |   ❌   |    ✅    |
+| Copies the annotated shot instantly  |       ✅       |      ❌     |   ❌   |    ❌    |
+| No editor window to open             |       ✅       |      ❌     |   ❌   |    ✅    |
+
+PromptShot is the only one built for the *"point at it and paste"* loop — the desktop stays
+live while you draw, and the result is on your clipboard the instant you press Enter.
+
+## See it in action
+
+<!-- Record the loop (Ctrl+Alt+J → draw a red arrow → Enter → Ctrl+V into a Claude/Cursor
+     chat) with ScreenToGif, save it as demo.gif in the repo root, and uncomment the line
+     below. -->
+<!-- <p align="center"><img src="demo.gif" alt="PromptShot demo" width="800"></p> -->
+
+> 🎬 _Demo clip landing here shortly._
 
 ## Install
 
+**Needs Windows + [Python 3.9+](https://www.python.org/downloads/windows/).**
+
 ```powershell
-git clone https://github.com/<your-username>/promptshot.git
+git clone https://github.com/Tamara-Codes/promptshot.git
 cd promptshot
 python -m pip install -r requirements.txt
-```
-
-Dependencies are just **Pillow** (screenshot + draw) and **pywin32** (clipboard). There is
-**no global keystroke hook** — the hotkey is a single chord registered with the Win32
-`RegisterHotKey` API, so the tool never watches what you type (and won't trip antivirus
-keylogger heuristics).
-
-## Usage
-
-### Resident daemon (recommended) — instant hotkey
-
-```powershell
 pythonw promptshot_daemon.pyw
 ```
 
-Runs invisibly in the background with Python and its libraries already loaded, so the
-overlay appears **instantly** when you press the hotkey. Use `pythonw` (not `python`) so
-there's no console window.
+That's it — it's now running in the background. Dependencies are just **Pillow** and
+**pywin32**, and there's **no global keystroke hook** (the hotkey is a single chord
+registered with the Win32 `RegisterHotKey` API), so it never watches what you type.
 
-- **Ctrl+Alt+J** — open the draw overlay
-- **Draw** with the left mouse button
-- **Enter** — copy the annotated screenshot to the clipboard and close
-- **Esc** — cancel
+## Use it
 
-### Single-shot fallback — no background process
+1. **Ctrl+Alt+J** — the screen dims.
+2. **Draw** red marks with the left mouse button.
+3. **Enter** — the annotated screenshot is copied to your clipboard.
+4. **Ctrl+V** into your AI chat. (Or **Esc** to cancel.)
 
-```powershell
-pythonw promptshot.pyw
-```
+---
 
-Opens the overlay once and exits after you press Enter/Esc. No hotkey of its own — bind it
-to a shortcut key yourself if you like. Handy if you don't want a resident process.
+## The two ways to run it
 
-## Start automatically on login (daemon)
+**Resident daemon (recommended)** — `pythonw promptshot_daemon.pyw`. Runs invisibly with
+Python already loaded, so the overlay appears **instantly** on Ctrl+Alt+J. Use `pythonw`
+(not `python`) so there's no console window.
+
+**Single-shot fallback** — `pythonw promptshot.pyw`. Opens the overlay once and exits, no
+hotkey and no background process. Bind it to a shortcut key yourself if you prefer.
+
+## Start automatically on login
 
 1. Press `Win+R`, type `shell:startup`, press Enter — this opens your Startup folder.
 2. Right-click → **New → Shortcut**, and for the target use the **full path** to `pythonw`
-   plus the script, e.g.:
+   plus the script:
 
    ```
    "C:\Path\To\pythonw.exe" "C:\Path\To\promptshot\promptshot_daemon.pyw"
    ```
-
-> **Microsoft Store Python gotcha:** the bare `python` / `pythonw` commands only resolve
-> inside a real shell (via the Store app-execution alias). Shortcuts launched from Explorer
-> must use the **full** `pythonw.exe` path or they silently do nothing. Find it with
-> `where.exe pythonw` (or `(Get-Command pythonw).Source` in PowerShell).
 
 ## Configuration
 
@@ -95,6 +97,17 @@ To **rebind the hotkey** (daemon), change `MODIFIERS` and `VK_KEY` near the top 
 `promptshot_daemon.pyw`. `VK_KEY` is a Windows
 [virtual-key code](https://learn.microsoft.com/windows/win32/inputdev/virtual-key-codes)
 (`0x4A` is `J`); `MODIFIERS` ORs together `MOD_CONTROL`, `MOD_ALT`, `MOD_SHIFT`, `MOD_WIN`.
+
+## Troubleshooting
+
+**The shortcut does nothing when launched from Explorer (Microsoft Store Python).** The bare
+`python` / `pythonw` commands only resolve inside a real shell (via the Store app-execution
+alias). Shortcuts and `.lnk` files launched from Explorer must use the **full** `pythonw.exe`
+path or they silently do nothing. Find it with `where.exe pythonw` (or
+`(Get-Command pythonw).Source` in PowerShell).
+
+**Ctrl+Alt+J does nothing.** Another app may already own that chord. Rebind `MODIFIERS` /
+`VK_KEY` (see Configuration), or make sure a second copy of the daemon isn't already running.
 
 ## How it works
 
