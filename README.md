@@ -5,10 +5,9 @@
 Press a hotkey, draw a red circle or arrow on whatever's broken, hit Enter — and an
 annotated screenshot is on your clipboard, ready to paste into Cursor, Claude, or Copilot.
 
-```
-Ctrl+Alt+J   →   dim live screen   →   draw   →   Enter   →   screenshot on clipboard
-                                                    Esc     →   cancel
-```
+<p align="center">
+  <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>J</kbd> &nbsp;→&nbsp; draw on the screen &nbsp;→&nbsp; <kbd>Enter</kbd> &nbsp;→&nbsp; paste with <kbd>Ctrl</kbd>+<kbd>V</kbd>
+</p>
 
 ## Why should I care?
 
