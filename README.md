@@ -111,4 +111,4 @@ layer is never part of the captured image.
 
 ---
 
-Made by [Tamara](https://github.com/Tamara-Codes).
+Made by [Tamara](https://www.tamara.rocks).
