@@ -32,12 +32,7 @@ live while you draw, and the result is on your clipboard the instant you press E
 
 ## See it in action
 
-<!-- Record the loop (Ctrl+Alt+J → draw a red arrow → Enter → Ctrl+V into a Claude/Cursor
-     chat) with ScreenToGif, save it as demo.gif in the repo root, and uncomment the line
-     below. -->
-<!-- <p align="center"><img src="demo.gif" alt="PromptShot demo" width="800"></p> -->
-
-> 🎬 _Demo clip landing here shortly._
+<p align="center"><img src="demo.gif" alt="PromptShot demo: press the hotkey, draw a red mark, and paste the annotated screenshot into an AI chat" width="800"></p>
 
 ## Install
 
