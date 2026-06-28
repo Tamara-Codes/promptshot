@@ -108,3 +108,7 @@ layer is never part of the captured image.
 ## License
 
 [MIT](LICENSE) — do whatever you like with it.
+
+---
+
+Made by [Tamara](https://github.com/Tamara-Codes).
